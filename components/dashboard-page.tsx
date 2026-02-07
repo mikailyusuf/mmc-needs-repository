@@ -16,6 +16,14 @@ import {
   ResponsiveContainer,
   ScatterChart,
   Scatter,
+  AreaChart,
+  Area,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+  ComposedChart,
 } from 'recharts';
 import {
   AlertCircle,
@@ -30,6 +38,9 @@ import {
   BarChart3,
   FileText,
   ChevronRight,
+  Map,
+  Users,
+  Target,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -82,6 +93,39 @@ const GEOGRAPHIC_HEATMAP = [
   { zone: 'West Zone', pending: 19, verified: 41, resolved: 56 },
 ];
 
+const RESPONSE_TIME_DATA = [
+  { period: 'Week 1', avgTime: 2.4, target: 2 },
+  { period: 'Week 2', avgTime: 1.8, target: 2 },
+  { period: 'Week 3', avgTime: 2.1, target: 2 },
+  { period: 'Week 4', avgTime: 1.5, target: 2 },
+  { period: 'Week 5', avgTime: 1.2, target: 2 },
+];
+
+const BUDGET_DATA = [
+  { category: 'WASH', allocated: 150000, spent: 98000 },
+  { category: 'Health', allocated: 200000, spent: 165000 },
+  { category: 'Education', allocated: 120000, spent: 89000 },
+  { category: 'Food Security', allocated: 250000, spent: 210000 },
+  { category: 'Shelter', allocated: 180000, spent: 145000 },
+];
+
+const SECTOR_PERFORMANCE = [
+  { sector: 'WASH', completion: 75, quality: 82, satisfaction: 88 },
+  { sector: 'Health', completion: 68, quality: 80, satisfaction: 85 },
+  { sector: 'Education', completion: 72, quality: 85, satisfaction: 82 },
+  { sector: 'Food Security', completion: 80, quality: 78, satisfaction: 87 },
+  { sector: 'Shelter', completion: 65, quality: 81, satisfaction: 80 },
+];
+
+const TIMELINE_DATA = [
+  { month: 'Jan', newReports: 120, resolved: 45, pending: 75 },
+  { month: 'Feb', newReports: 180, resolved: 68, pending: 187 },
+  { month: 'Mar', newReports: 230, resolved: 95, pending: 322 },
+  { month: 'Apr', newReports: 280, resolved: 142, pending: 460 },
+  { month: 'May', newReports: 340, resolved: 198, pending: 602 },
+  { month: 'Jun', newReports: 420, resolved: 256, pending: 766 },
+];
+
 interface DashboardPageProps {
   role: string;
   onLogout: () => void;
@@ -106,10 +150,10 @@ export default function DashboardPage({
   };
 
   const modules = [
-    { id: 'needs-table', label: 'Needs Management', icon: Layers },
-    { id: 'map', label: 'Geographic Map', icon: MapPin },
-    { id: 'projects', label: 'Project Tracker', icon: BarChart3 },
-    { id: 'analytics', label: 'Analytics & Reports', icon: FileText },
+    { id: 'needs-table', label: 'Needs Management', icon: Layers, active: false },
+    { id: 'map', label: 'Geographic Map', icon: MapPin, active: false },
+    { id: 'projects', label: 'Project Tracker', icon: BarChart3, active: false },
+    { id: 'analytics', label: 'Analytics & Reports', icon: FileText, active: false },
   ];
 
   return (
@@ -149,17 +193,18 @@ export default function DashboardPage({
               <button
                 key={module.id}
                 onClick={() => onNavigate(module.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition group ${
                   sidebarOpen
-                    ? 'text-gray-300 hover:bg-emerald-500/20 hover:text-emerald-400 hover:border-emerald-500/30 border border-transparent'
+                    ? 'text-gray-300 hover:bg-emerald-500/20 hover:text-emerald-400 border border-transparent hover:border-emerald-500/30'
                     : 'justify-center text-gray-400 hover:bg-slate-700 hover:text-emerald-400'
                 }`}
+                title={module.label}
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
                 {sidebarOpen && (
                   <div className="flex items-center justify-between flex-1">
                     <span className="text-sm font-medium">{module.label}</span>
-                    <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100" />
+                    <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 )}
               </button>
@@ -415,6 +460,122 @@ export default function DashboardPage({
             </ResponsiveContainer>
           </div>
 
+          {/* Timeline/Cumulative Reports */}
+          <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Reports Timeline & Pending Queue</h3>
+            <ResponsiveContainer width="100%" height={280}>
+              <ComposedChart data={TIMELINE_DATA}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
+                <XAxis stroke="#9ca3af" />
+                <YAxis stroke="#9ca3af" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#1e293b',
+                    border: '1px solid #475569',
+                    borderRadius: '8px',
+                  }}
+                  labelStyle={{ color: '#f1f5f9' }}
+                />
+                <Legend />
+                <Area type="monotone" dataKey="pending" fill="#8b5cf6" stroke="#8b5cf6" fillOpacity={0.6} />
+                <Bar dataKey="newReports" fill="#3b82f6" />
+                <Line type="monotone" dataKey="resolved" stroke="#10b981" strokeWidth={3} />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Budget Analysis */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Budget Allocation vs Spending</h3>
+              <ResponsiveContainer width="100%" height={280}>
+                <BarChart data={BUDGET_DATA}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
+                  <XAxis stroke="#9ca3af" angle={-45} textAnchor="end" height={80} />
+                  <YAxis stroke="#9ca3af" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#1e293b',
+                      border: '1px solid #475569',
+                      borderRadius: '8px',
+                    }}
+                    labelStyle={{ color: '#f1f5f9' }}
+                    formatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                  />
+                  <Legend />
+                  <Bar dataKey="allocated" fill="#3b82f6" />
+                  <Bar dataKey="spent" fill="#f59e0b" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Response Time Performance */}
+            <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Response Time Performance (Days)</h3>
+              <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={RESPONSE_TIME_DATA}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
+                  <XAxis stroke="#9ca3af" />
+                  <YAxis stroke="#9ca3af" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#1e293b',
+                      border: '1px solid #475569',
+                      borderRadius: '8px',
+                    }}
+                    labelStyle={{ color: '#f1f5f9' }}
+                    formatter={(value) => `${value.toFixed(1)} days`}
+                  />
+                  <Legend />
+                  <Line type="monotone" dataKey="avgTime" stroke="#10b981" strokeWidth={3} name="Avg Response Time" />
+                  <Line type="monotone" dataKey="target" stroke="#ef4444" strokeWidth={2} strokeDasharray="5 5" name="Target" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Sector Performance Radar */}
+          <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Sector Performance Metrics</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <RadarChart data={SECTOR_PERFORMANCE}>
+                <PolarGrid stroke="#475569" />
+                <PolarAngleAxis dataKey="sector" stroke="#9ca3af" />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} stroke="#9ca3af" />
+                <Radar name="Completion Rate" dataKey="completion" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.25} />
+                <Radar name="Quality Score" dataKey="quality" stroke="#10b981" fill="#10b981" fillOpacity={0.25} />
+                <Radar name="Satisfaction" dataKey="satisfaction" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.25} />
+                <Legend />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#1e293b',
+                    border: '1px solid #475569',
+                    borderRadius: '8px',
+                  }}
+                  labelStyle={{ color: '#f1f5f9' }}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {[
+              { label: 'Create Report', action: () => onNavigate('needs-table'), color: 'from-blue-600 to-blue-400' },
+              { label: 'View Map', action: () => onNavigate('map'), color: 'from-emerald-600 to-emerald-400' },
+              { label: 'Track Projects', action: () => onNavigate('projects'), color: 'from-purple-600 to-purple-400' },
+              { label: 'Analytics', action: () => onNavigate('analytics'), color: 'from-amber-600 to-amber-400' },
+            ].map((item, i) => (
+              <button
+                key={i}
+                onClick={item.action}
+                className={`bg-gradient-to-r ${item.color} text-white font-semibold py-3 px-4 rounded-lg hover:shadow-lg transition transform hover:scale-105`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
           {/* Recent Reports */}
           <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
             <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
@@ -425,6 +586,7 @@ export default function DashboardPage({
               {RECENT_REPORTS.map((report) => (
                 <div
                   key={report.id}
+                  onClick={() => onNavigate('needs-table')}
                   className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition cursor-pointer"
                 >
                   <div className="flex-1">

@@ -2,6 +2,19 @@
 
 import { ArrowLeft, ChevronDown, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+} from 'recharts';
+import InteractiveMap from '@/components/modules/interactive-map';
 
 interface ModulePageProps {
   moduleId: string;
@@ -258,46 +271,95 @@ export default function ModulePage({ moduleId, onBack }: ModulePageProps) {
 
   const renderMap = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-white">Geographic Distribution</h2>
-      <div className="bg-slate-800 rounded-lg border border-slate-700 p-8 h-96 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-400 mb-4">Ward Map Visualization</p>
-          <div className="grid grid-cols-3 gap-4">
-            {wards.slice(1).map((ward) => (
-              <div key={ward} className="bg-slate-700 rounded-lg p-4 cursor-pointer hover:bg-slate-600 transition">
-                <p className="text-white font-semibold">{ward}</p>
-                <p className="text-emerald-400 text-sm mt-2">24 Reports</p>
-              </div>
-            ))}
-          </div>
-        </div>
+      <div>
+        <h2 className="text-2xl font-bold text-white">Geographic Distribution</h2>
+        <p className="text-gray-400 text-sm mt-1">Interactive map visualization with ward-level details and status indicators</p>
       </div>
+      <InteractiveMap />
     </div>
   );
 
+  const ANALYTICS_CHARTS = {
+    trend: [
+      { month: 'Jan', reports: 120, resolved: 45 },
+      { month: 'Feb', reports: 180, resolved: 68 },
+      { month: 'Mar', reports: 230, resolved: 95 },
+      { month: 'Apr', reports: 280, resolved: 142 },
+      { month: 'May', reports: 340, resolved: 198 },
+      { month: 'Jun', reports: 420, resolved: 256 },
+    ],
+  };
+
   const renderAnalytics = () => (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-white">Analytics & Reports</h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {[
-          { title: 'Monthly Trend Report', desc: 'Needs trends over the last 6 months' },
-          { title: 'Ward Performance', desc: 'Comparative analysis by ward' },
-          { title: 'Category Breakdown', desc: 'Distribution by sector' },
-          { title: 'Response Time Analysis', desc: 'Average resolution time' },
-        ].map((report, i) => (
-          <div
-            key={i}
-            className="bg-slate-800 rounded-lg border border-slate-700 p-6 hover:border-emerald-500 transition cursor-pointer"
-          >
-            <h3 className="text-lg font-semibold text-white mb-2">{report.title}</h3>
-            <p className="text-gray-400 text-sm mb-4">{report.desc}</p>
-            <button className="text-emerald-400 hover:text-emerald-300 text-sm font-medium">
-              View Report →
-            </button>
-          </div>
-        ))}
+      <div className="space-y-6">
+        <h2 className="text-2xl font-bold text-white">Analytics & Reports</h2>
+        
+        {/* Report Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {[
+            { title: 'Monthly Trend Report', desc: 'Needs trends over the last 6 months', icon: '📈' },
+            { title: 'Ward Performance', desc: 'Comparative analysis by ward', icon: '🗺️' },
+            { title: 'Category Breakdown', desc: 'Distribution by sector', icon: '📊' },
+            { title: 'Response Time Analysis', desc: 'Average resolution time', icon: '⏱️' },
+          ].map((report, i) => (
+            <div
+              key={i}
+              className="bg-slate-800 rounded-lg border border-slate-700 p-6 hover:border-emerald-500 transition cursor-pointer"
+            >
+              <div className="flex items-start gap-3 mb-2">
+                <span className="text-2xl">{report.icon}</span>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">{report.title}</h3>
+                </div>
+              </div>
+              <p className="text-gray-400 text-sm mb-4">{report.desc}</p>
+              <button className="text-emerald-400 hover:text-emerald-300 text-sm font-medium">
+                View Report →
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Trend Chart */}
+        <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Monthly Trend Analysis</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={ANALYTICS_CHARTS.trend}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
+              <XAxis stroke="#9ca3af" />
+              <YAxis stroke="#9ca3af" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1e293b',
+                  border: '1px solid #475569',
+                  borderRadius: '8px',
+                }}
+                labelStyle={{ color: '#f1f5f9' }}
+              />
+              <Legend />
+              <Line type="monotone" dataKey="reports" stroke="#3b82f6" strokeWidth={2} name="Reports" />
+              <Line type="monotone" dataKey="resolved" stroke="#10b981" strokeWidth={2} name="Resolved" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Key Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { label: 'Avg Response Time', value: '1.2 days', trend: '↓ 15%' },
+            { label: 'Resolution Rate', value: '81%', trend: '↑ 8%' },
+            { label: 'Customer Satisfaction', value: '4.5/5', trend: '↑ 12%' },
+          ].map((metric, i) => (
+            <div key={i} className="bg-slate-800 rounded-lg border border-slate-700 p-6">
+              <p className="text-gray-400 text-sm">{metric.label}</p>
+              <div className="flex items-baseline gap-3 mt-2">
+                <p className="text-2xl font-bold text-white">{metric.value}</p>
+                <span className="text-emerald-400 text-sm font-semibold">{metric.trend}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
   );
 
   const getModuleContent = () => {
