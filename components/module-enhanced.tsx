@@ -18,9 +18,9 @@ const NEEDS_DATA = [
 ];
 
 const PROJECTS_DATA = [
-  { id: 1, title: 'Water Boreholes Installation', status: 'In Progress', progress: 65, budget: '$45,000', spent: '$28,500', partner: 'UNICEF' },
-  { id: 2, title: 'Health Center Construction', status: 'Planning', progress: 20, budget: '$120,000', spent: '$24,000', partner: 'WHO' },
-  { id: 3, title: 'School Rehabilitation', status: 'In Progress', progress: 45, budget: '$80,000', spent: '$36,000', partner: 'UNICEF' },
+  { id: 1, title: 'Water Boreholes Installation', status: 'In Progress', progress: 65, budget: '₦45,000,000', spent: '₦28,500,000', partner: 'UNICEF' },
+  { id: 2, title: 'Health Center Construction', status: 'Planning', progress: 20, budget: '₦120,000,000', spent: '₦24,000,000', partner: 'WHO' },
+  { id: 3, title: 'School Rehabilitation', status: 'In Progress', progress: 45, budget: '₦80,000,000', spent: '₦36,000,000', partner: 'UNICEF' },
 ];
 
 const WARD_DATA = {

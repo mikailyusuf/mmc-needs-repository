@@ -382,9 +382,7 @@ export default function DashboardEnhanced({
             </ResponsiveContainer>
           </div>
 
-          {/* Budget Analysis */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Budget Allocation vs Spending */}
+            {/* Budget Analysis */}
             <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
               <h3 className="text-lg font-semibold text-white mb-4">Budget Allocation vs Spending</h3>
               <ResponsiveContainer width="100%" height={280}>
@@ -392,7 +390,7 @@ export default function DashboardEnhanced({
                   <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
                   <XAxis stroke="#9ca3af" angle={-45} textAnchor="end" height={80} />
                   <YAxis stroke="#9ca3af" />
-                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} labelStyle={{ color: '#f1f5f9' }} formatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
+                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} labelStyle={{ color: '#f1f5f9' }} formatter={(value) => `₦${(value / 1000000).toFixed(1)}M`} />
                   <Legend />
                   <Bar dataKey="allocated" fill="#3b82f6" />
                   <Bar dataKey="spent" fill="#f59e0b" />
@@ -444,7 +442,7 @@ export default function DashboardEnhanced({
                   <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
                   <XAxis stroke="#9ca3af" angle={-45} textAnchor="end" height={80} />
                   <YAxis stroke="#9ca3af" />
-                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} labelStyle={{ color: '#f1f5f9' }} formatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
+                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} labelStyle={{ color: '#f1f5f9' }} formatter={(value) => `₦${(value / 1000000).toFixed(1)}M`} />
                   <Area type="monotone" dataKey="spent" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.6} />
                 </AreaChart>
               </ResponsiveContainer>

@@ -75,8 +75,8 @@ const PROJECTS_DATA = [
     title: 'Water Boreholes Installation',
     status: 'In Progress',
     progress: 65,
-    budget: '$45,000',
-    spent: '$28,500',
+    budget: '₦45,000,000',
+    spent: '₦28,500,000',
     partner: 'UNICEF',
   },
   {
@@ -84,8 +84,8 @@ const PROJECTS_DATA = [
     title: 'Health Center Construction',
     status: 'Planning',
     progress: 20,
-    budget: '$120,000',
-    spent: '$24,000',
+    budget: '₦120,000,000',
+    spent: '₦24,000,000',
     partner: 'WHO',
   },
   {
@@ -93,8 +93,8 @@ const PROJECTS_DATA = [
     title: 'School Rehabilitation',
     status: 'In Progress',
     progress: 45,
-    budget: '$80,000',
-    spent: '$36,000',
+    budget: '₦80,000,000',
+    spent: '₦36,000,000',
     partner: 'UNICEF',
   },
 ];
