@@ -490,7 +490,15 @@ export default function DashboardEnhanced({
                     <p className="text-white font-medium">{report.title}</p>
                     <p className="text-sm text-gray-400">{report.category}</p>
                   </div>
-                  <span className={`text-xs px-3 py-1 rounded-full font-medium ${report.status === 'Completed' ? 'bg-emerald-500/20 text-emerald-400' : report.status === 'Verified' ? 'bg-blue-500/20 text-blue-400' : report.status === 'In Progress' ? 'bg-amber-500/20 text-amber-400' : 'bg-gray-500/20 text-gray-400'}`}>
+                  <span className={`text-xs px-3 py-1 rounded-full font-medium ${
+                    report.status === 'Completed'
+                      ? 'bg-emerald-500/20 text-emerald-400'
+                      : report.status === 'Verified'
+                        ? 'bg-blue-500/20 text-blue-400'
+                        : report.status === 'In Progress'
+                          ? 'bg-amber-500/20 text-amber-400'
+                          : 'bg-gray-500/20 text-gray-400'
+                  }`}>
                     {report.status}
                   </span>
                 </div>
