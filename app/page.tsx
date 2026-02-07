@@ -4,6 +4,7 @@ import { useState } from 'react';
 import LoginPage from '@/components/login-page';
 import DashboardEnhanced from '@/components/dashboard-enhanced';
 import ModuleEnhanced from '@/components/module-enhanced';
+import ChairmanDashboard from '@/components/chairman-dashboard';
 
 type AppState = 'login' | 'dashboard' | 'module';
 
@@ -36,7 +37,10 @@ export default function Home() {
   return (
     <>
       {appState === 'login' && <LoginPage onLogin={handleLogin} />}
-      {appState === 'dashboard' && (
+      {appState === 'dashboard' && userRole === 'chairman' && (
+        <ChairmanDashboard onLogout={handleLogout} />
+      )}
+      {appState === 'dashboard' && userRole !== 'chairman' && (
         <DashboardEnhanced role={userRole} onLogout={handleLogout} onNavigate={handleNavigate} />
       )}
       {appState === 'module' && <ModuleEnhanced moduleId={currentModule} onBack={handleBackToDashboard} />}

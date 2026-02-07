@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Building2, Lock, Mail } from 'lucide-react';
 
 const ROLES = [
+  { id: 'chairman', label: 'Chairman (LGA Leader)', description: 'Delivery & oversight platform' },
   { id: 'admin', label: 'MMC Administrator', description: 'Full system access' },
   { id: 'ward-manager', label: 'Ward Manager', description: 'Manage ward-specific needs' },
   { id: 'field-officer', label: 'Field Officer', description: 'Verify and report needs' },
@@ -17,8 +18,8 @@ interface LoginPageProps {
 }
 
 export default function LoginPage({ onLogin }: LoginPageProps) {
-  const [selectedRole, setSelectedRole] = useState('admin');
-  const [email, setEmail] = useState('demo@example.com');
+  const [selectedRole, setSelectedRole] = useState('chairman');
+  const [email, setEmail] = useState('chairman@mmc.gov.ng');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
