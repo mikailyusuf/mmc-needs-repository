@@ -20,6 +20,10 @@ import {
   LogOut,
   Menu,
   X,
+  LayoutDashboard,
+  AlertTriangle,
+  Star,
+  DollarSign,
 } from 'lucide-react';
 
 // Chairman's KPI Data
@@ -129,20 +133,21 @@ export default function ChairmanDashboard({ onLogout }: { onLogout: () => void }
           <aside className="w-56 bg-slate-800/50 backdrop-blur rounded-lg border border-slate-700 p-4 h-fit sticky top-24">
             <nav className="space-y-2">
               {[
-                { id: 'overview', label: 'Dashboard Overview' },
-                { id: 'alerts', label: 'Urgent Alerts' },
-                { id: 'performance', label: 'Ward Performance' },
-                { id: 'budget', label: 'Budget & Committees' },
+                { id: 'overview', label: 'Dashboard Overview', Icon: LayoutDashboard },
+                { id: 'alerts', label: 'Urgent Alerts', Icon: AlertTriangle },
+                { id: 'performance', label: 'Ward Performance', Icon: Star },
+                { id: 'budget', label: 'Budget & Committees', Icon: DollarSign },
               ].map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setActiveView(item.id as any)}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition ${
+                  className={`w-full text-left px-4 py-3 rounded-lg transition flex items-center gap-3 ${
                     activeView === item.id
                       ? 'bg-emerald-600 text-white'
                       : 'text-gray-300 hover:bg-slate-700'
                   }`}
                 >
+                  <item.Icon className="w-5 h-5 flex-shrink-0" />
                   {item.label}
                 </button>
               ))}
