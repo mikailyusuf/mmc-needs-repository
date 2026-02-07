@@ -17,22 +17,9 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import {
-  AlertCircle,
-  CheckCircle,
-  Clock,
   LogOut,
   Menu,
   X,
-  TrendingUp,
-  MapPin,
-  FileText,
-  Users,
-  Zap,
-  Award,
-  Download,
-  Eye,
-  Lock,
-  Bell,
 } from 'lucide-react';
 
 // Chairman's KPI Data
@@ -41,40 +28,36 @@ const CHAIRMAN_KPIs = [
     label: 'Total Ward Reports This Month',
     value: '248',
     change: '+12%',
-    icon: Bell,
     color: 'emerald',
   },
   {
     label: 'Urgent Needs (0-30 Days)',
     value: '24',
     change: '-5%',
-    icon: AlertCircle,
     color: 'red',
   },
   {
     label: 'Avg Response Time',
     value: '4.2 days',
     change: '-18%',
-    icon: Clock,
     color: 'blue',
   },
   {
     label: 'Projects Completed',
     value: '18/45',
     change: '+8%',
-    icon: CheckCircle,
     color: 'emerald',
   },
 ];
 
 // Simplified LGA-Friendly Categories
 const NEED_CATEGORIES = [
-  { name: 'Roads & Drainage', count: 45, color: '#3b82f6', icon: '🛣️' },
-  { name: 'Primary Health', count: 32, color: '#10b981', icon: '🏥' },
-  { name: 'Schools & Teachers', count: 28, color: '#f59e0b', icon: '🎓' },
-  { name: 'Water & Sanitation', count: 52, color: '#8b5cf6', icon: '💧' },
-  { name: 'Markets & Livelihoods', count: 18, color: '#ec4899', icon: '🏪' },
-  { name: 'Security & Social', count: 8, color: '#ef4444', icon: '🔒' },
+  { name: 'Roads & Drainage', count: 45, color: '#3b82f6' },
+  { name: 'Primary Health', count: 32, color: '#10b981' },
+  { name: 'Schools & Teachers', count: 28, color: '#f59e0b' },
+  { name: 'Water & Sanitation', count: 52, color: '#8b5cf6' },
+  { name: 'Markets & Livelihoods', count: 18, color: '#ec4899' },
+  { name: 'Security & Social', count: 8, color: '#ef4444' },
 ];
 
 // Status Lifecycle Data
@@ -126,16 +109,14 @@ export default function ChairmanDashboard({ onLogout }: { onLogout: () => void }
           <div className="flex items-center gap-4">
             <button
               onClick={exportBriefing}
-              className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition"
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition"
             >
-              <Download className="w-4 h-4" />
               Export Briefing
             </button>
             <button
               onClick={onLogout}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition"
+              className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition"
             >
-              <LogOut className="w-4 h-4" />
               Logout
             </button>
           </div>
@@ -148,10 +129,10 @@ export default function ChairmanDashboard({ onLogout }: { onLogout: () => void }
           <aside className="w-56 bg-slate-800/50 backdrop-blur rounded-lg border border-slate-700 p-4 h-fit sticky top-24">
             <nav className="space-y-2">
               {[
-                { id: 'overview', label: 'Dashboard Overview', icon: '📊' },
-                { id: 'alerts', label: 'Urgent Alerts', icon: '🚨' },
-                { id: 'performance', label: 'Ward Performance', icon: '⭐' },
-                { id: 'budget', label: 'Budget & Committees', icon: '💰' },
+                { id: 'overview', label: 'Dashboard Overview' },
+                { id: 'alerts', label: 'Urgent Alerts' },
+                { id: 'performance', label: 'Ward Performance' },
+                { id: 'budget', label: 'Budget & Committees' },
               ].map((item) => (
                 <button
                   key={item.id}
@@ -162,7 +143,6 @@ export default function ChairmanDashboard({ onLogout }: { onLogout: () => void }
                       : 'text-gray-300 hover:bg-slate-700'
                   }`}
                 >
-                  <span className="mr-2">{item.icon}</span>
                   {item.label}
                 </button>
               ))}
@@ -176,19 +156,15 @@ export default function ChairmanDashboard({ onLogout }: { onLogout: () => void }
             <>
               {/* KPI Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {CHAIRMAN_KPIs.map((kpi, i) => {
-                  const Icon = kpi.icon;
-                  return (
-                    <div key={i} className="bg-slate-800 border border-slate-700 rounded-lg p-6 hover:border-emerald-500 transition">
-                      <div className="flex items-center justify-between mb-4">
-                        <Icon className={`w-8 h-8 text-${kpi.color}-400`} />
-                        <span className="text-sm font-semibold text-emerald-400">{kpi.change}</span>
-                      </div>
-                      <p className="text-gray-400 text-sm mb-1">{kpi.label}</p>
-                      <p className="text-3xl font-bold text-white">{kpi.value}</p>
+                {CHAIRMAN_KPIs.map((kpi, i) => (
+                  <div key={i} className="bg-slate-800 border border-slate-700 rounded-lg p-6 hover:border-emerald-500 transition">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-sm font-semibold text-emerald-400">{kpi.change}</span>
                     </div>
-                  );
-                })}
+                    <p className="text-gray-400 text-sm mb-1">{kpi.label}</p>
+                    <p className="text-3xl font-bold text-white">{kpi.value}</p>
+                  </div>
+                ))}
               </div>
 
               {/* Top Row: Status Lifecycle & Category Distribution */}
@@ -214,7 +190,6 @@ export default function ChairmanDashboard({ onLogout }: { onLogout: () => void }
                   <div className="space-y-3">
                     {NEED_CATEGORIES.map((cat, i) => (
                       <div key={i} className="flex items-center gap-3">
-                        <span className="text-2xl">{cat.icon}</span>
                         <div className="flex-1">
                           <div className="flex justify-between items-center mb-1">
                             <span className="text-white font-medium">{cat.name}</span>
@@ -235,10 +210,7 @@ export default function ChairmanDashboard({ onLogout }: { onLogout: () => void }
 
               {/* Map: "What Needs My Attention Today?" */}
               <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-                <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-emerald-400" />
-                  Ward Heat Map - What Needs Attention Today?
-                </h2>
+                <h2 className="text-lg font-semibold text-white mb-4">Ward Heat Map - What Needs Attention Today?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                   {WARD_PERFORMANCE.map((ward, i) => (
                     <div
@@ -273,7 +245,6 @@ export default function ChairmanDashboard({ onLogout }: { onLogout: () => void }
                 ].map((alert) => (
                   <div key={alert.id} className="bg-slate-800 border border-slate-700 rounded-lg p-4 flex items-center justify-between hover:border-red-500 transition">
                     <div className="flex items-center gap-4">
-                      <AlertCircle className={`w-6 h-6 ${alert.urgency === 'Critical' ? 'text-red-500' : 'text-amber-500'}`} />
                       <div>
                         <p className="text-white font-semibold">{alert.ward}: {alert.issue}</p>
                         <p className="text-sm text-gray-400">Reported {alert.days} days ago</p>
