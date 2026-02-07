@@ -413,7 +413,6 @@ export default function DashboardEnhanced({
                 </LineChart>
               </ResponsiveContainer>
             </div>
-          </div>
 
           {/* Sector Performance Radar */}
           <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
