@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import LoginPage from '@/components/login-page';
-import DashboardPage from '@/components/dashboard-page';
-import ModulePage from '@/components/module-page';
+import DashboardEnhanced from '@/components/dashboard-enhanced';
+import ModuleEnhanced from '@/components/module-enhanced';
 
 type AppState = 'login' | 'dashboard' | 'module';
 
@@ -37,9 +37,9 @@ export default function Home() {
     <>
       {appState === 'login' && <LoginPage onLogin={handleLogin} />}
       {appState === 'dashboard' && (
-        <DashboardPage role={userRole} onLogout={handleLogout} onNavigate={handleNavigate} />
+        <DashboardEnhanced role={userRole} onLogout={handleLogout} onNavigate={handleNavigate} />
       )}
-      {appState === 'module' && <ModulePage moduleId={currentModule} onBack={handleBackToDashboard} />}
+      {appState === 'module' && <ModuleEnhanced moduleId={currentModule} onBack={handleBackToDashboard} />}
     </>
   );
 }
